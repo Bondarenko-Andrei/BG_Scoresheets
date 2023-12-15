@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+<table class="table table-borderless w-auto">
+    <thead>
+    <tr>
+        <th>Username</th>
+        <th>Email</th>
+        <th>BGG ID</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>{{ user.username }}</td>
+        <td>{{ user.email }}</td>
+        <td>{% if user.bgg_username %}{{ user.bgg_username }}{% else %}N/A{% endif %}</td>
+    </tr>
+    </tbody>
+</table>
+<p>
+    <a href="{{ url_for('auth.edit_profile') }}" class="btn btn-info">Edit</a>
+</p>
+<p>
+    <a href="{{ url_for('profile.sessions') }}" class="btn btn-outline-primary">
+        My sessions ({{ user.sessions|count }})
+    </a>
+    <a href="{{ url_for('profile.players') }}" class="btn btn-outline-primary">
+        My players ({{ user.players|count }})
+    </a>
+    <a href="{{ url_for('profile.custom_scoresheets') }}" class="btn btn-outline-primary">
+        My scoresheets ({{ user.custom_games|count }})
+    </a>
+</p>
+{% endblock %}

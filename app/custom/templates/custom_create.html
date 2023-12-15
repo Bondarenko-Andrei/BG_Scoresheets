@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% from "_formhelpers.html" import render_field %}
+
+{% block content %}
+<form action="" method="post">
+    {{ form.hidden_tag() }}
+    {{ render_field(form.name) }}
+    {{ render_field(form.min_players) }}
+    {{ render_field(form.max_players) }}
+    {{ render_field(form.year) }}
+    <h4>Fields:</h4>
+    {% for field in form.fields %}
+    {{ render_field(field, with_label=False, placeholder="Enter field's name", required=False) }}
+    {% endfor %}
+    <button type="submit" name="add_field" value="1" class="btn btn-info">+ Add Field</button>
+    {% if form.fields.data|count > 1 %}
+    <button type="submit" name="delete_field" value="1" class="btn btn-info">- Delete Field</button>
+    {% endif %}
+    {{ form.submit(class_="btn btn-primary") }}
+</form>
+{% endblock %}

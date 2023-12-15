@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% from "_formhelpers.html" import render_field %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <h3>Search on BGG</h3>
+        <p>Search a game <i>by name</i> on BoardGameGeek to automatically upload its image, min and max players.</p>
+        <form method="post">
+            {{ search_form.hidden_tag() }}
+            {{ render_field(search_form.game_name, with_label=False, placeholder="Enter game's name", required=False) }}
+            {{ search_form.search(class_="btn btn-primary") }}
+        </form>
+    </div>
+    <div class="col-md-6 mb-4">
+        <h3>Enter BGG ID</h3>
+        <p>Enter game's id on BoardGameGeek and immediately proceed to setting fields of the scoresheet.</p>
+        <form method="post">
+            {{ bgg_id_form.hidden_tag() }}
+            {{ render_field(bgg_id_form.bgg_id, with_label=False, placeholder="Enter game's BGG id", required=False) }}
+            {{ bgg_id_form.submit(class_="btn btn-primary") }}
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <h3>Choose from collection</h3>
+        <p>Choose a game from your collection on BoardGameGeek (BGG username in profile required).</p>
+        <a href="{{ url_for('custom.my_games') }}"
+           class="btn btn-primary {% if not current_user.bgg_username %} disabled {% endif %}">
+            Collection
+        </a>
+    </div>
+    <div class="col-md-6 mb-4">
+        <h3>Custom scoresheet</h3>
+        <p>Create your own scoresheet without a link to BGG. Set a name, min and max players and fields.</p>
+        <a href="{{ url_for('custom.custom_create') }}" class="btn btn-primary">Custom</a>
+    </div>
+</div>
+{% endblock %}

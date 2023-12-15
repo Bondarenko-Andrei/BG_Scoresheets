@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% from "_formhelpers.html" import render_field %}
+
+{% block content %}
+<div class="col mb-3">
+    {% if game.image %}
+    <img src="{{ game.image }}" class="img-fluid rounded" style="max-height: 80px;">
+    {% endif %}
+    {{ game.name }}
+    {% if game.year %}
+    ({{ game.year }})
+    {% endif %}
+</div>
+<form action="" method="post">
+    {{ form.hidden_tag() }}
+    {% for field in form.fields %}
+    {{ render_field(field, with_label=False, placeholder="Enter field's name", required=False) }}
+    {% endfor %}
+    <button type="submit" name="add_field" value="1" class="btn btn-info">+ Add Field</button>
+    {% if form.fields.data|count > 1 %}
+    <button type="submit" name="delete_field" value="1" class="btn btn-info">- Delete Field</button>
+    {% endif %}
+    {{ form.submit(class_="btn btn-primary") }}
+</form>
+{% endblock %}

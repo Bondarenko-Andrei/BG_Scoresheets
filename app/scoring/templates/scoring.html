@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="col mb-3">
+    {% if game.image %}
+    <img src="{{ game.image }}" class="img-fluid rounded" style="max-height: 80px;">
+    {% endif %}
+    {{ game.name }}
+    {% if game.year %}
+    ({{ game.year }})
+    {% endif %}
+</div>
+<form action="" method="post">
+    {{ form.hidden_tag() }}
+    <p>Current number of players: {{ form.players.data|count }}</p>
+    <p>
+        {% if not game.max_players or form.players.data|count < game.max_players %}
+        <button type="submit" name="add_player" value="1" class="btn btn-info">+ Add Player</button>
+        {% endif %}
+        {% if form.players.data|count > game.min_players %}
+        <button type="submit" name="delete_player" value="1" class="btn btn-info">- Delete Player</button>
+        {% endif %}
+    </p>
+    <div class="table-responsive">
+    <table class="table table-sm table-hover table-bordered align-middle w-auto">
+        <thead class="align-middle">
+        <tr class="table-light">
+            <th>{{ form.players.label }}</th>
+            {% for player in form.players %}
+            <th style="width: 140px">
+                {{ player(class_="form-control-plaintext", list="players_options", style="min-width: 80px") }}
+                <datalist id="players_options">
+                    {% for pl in players_list %}
+                    <option>{{ pl }}</option>
+                    {% endfor %}
+                </datalist>
+            </th>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tbody class="table-group-divider">
+        {% for score_field in form.scores %}
+        <tr>
+            <td>{{ score_field.label }}</td>
+            {% for subfield in score_field %}
+            <td>{{ subfield(class_="form-control-plaintext") }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    <p>{{ form.submit(class_="btn btn-primary") }}</p>
+    <p>
+        <a href="{{ url_for('scoring.select_game') }}" class="btn btn-outline-primary">Back to game selection</a>
+        {% if game.user_id %}
+        <a href="{{ url_for('profile.custom_scoresheets') }}" class="btn btn-outline-primary">
+            Back to my custom scoresheets
+        </a>
+        {% endif %}
+    </p>
+</form>
+{% endblock %}

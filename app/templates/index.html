@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="text-center mb-3">Welcome to BG-Scoresheets!</h1>
+<div class="row mx-auto justify-content-center">
+    <div class="col-md-9">
+    <h4><b>BG-Scoresheets</b> web application features:</h4>
+    <ul>
+        <li>Pre-created scoresheets for several popular boardgames</li>
+        <li>Creating your own table-styled scoresheets for any game out there</li>
+        <li>
+            Integration with BoardGameGeek (BGG search engine or choosing a game from your BGG collection,
+            when creating a scoresheet)
+        </li>
+        <li>Saving session and player results</li>
+        <li>Editing your saved sessions, players and custom scoresheets</li>
+        <li>100% free!</li>
+    </ul>
+    </div>
+</div>
+<div class="row mx-auto text-center justify-content-center">
+    {% if current_user.is_anonymous %}
+    <div class="col-md-4 border border-primary rounded p-3 text-center">
+        <div class="my-3">
+        <a href="{{ url_for('scoring.select_game') }}" class="btn btn-primary">Start scoring!</a>
+        </div>
+        <p>Proceed to game selection and choose one of pre-created scoresheets</p>
+    </div>
+    <div class="col-md-1 d-flex justify-content-center align-items-center">
+        <h2>or</h2>
+    </div>
+    <div class="col-md-4 border border-primary rounded p-3 text-center">
+        <div class="my-3">
+        <a href="{{ url_for('auth.login') }}" class="btn btn-primary">Login</a>
+        or
+        <a href="{{ url_for('auth.register') }}" class="btn btn-primary">Register</a>
+        </div>
+        <p>And use all the features of BG-Scoresheets, including saving your results and creating custom scoresheets</p>
+    </div>
+    {% else %}
+    <div class="col-md-4 border border-primary rounded p-3 text-center">
+        <div class="my-3">
+        <a href="{{ url_for('scoring.select_game') }}" class="btn btn-primary">Start scoring!</a>
+        </div>
+        <p>Proceed to game selection</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

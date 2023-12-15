@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="col mb-3">
+    {% if game.image %}
+    <img src="{{ game.image }}" class="img-fluid rounded" style="max-height: 80px;">
+    {% endif %}
+    {{ game.name }}
+    {% if game.year %}
+    ({{ game.year }})
+    {% endif %}
+</div>
+<div class="table-responsive">
+    <table class="table table-sm table-hover table-bordered align-middle w-auto">
+        <thead class="align-middle">
+            <tr class="table-light">
+                <th>{{ form.players.label }}</th>
+                {% for player in form.players %}
+                <th style="width: 140px">{{ player.data }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            {% for score_field in form.scores %}
+            <tr>
+                <td>{{ score_field.label }}</td>
+                {% for subfield in score_field %}
+                <td>{{ subfield.data }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot class="table-group-divider">
+            <tr>
+                <td>RESULTS</td>
+                {% for res in results %}
+                <td>{{ res|sum }}</td>
+                {% endfor %}
+            </tr>
+        </tfoot>
+    </table>
+</div>
+<p>To save your game sessions, please <a href="{{ url_for('auth.login') }}">Login</a> or
+    <a href="{{ url_for('auth.register') }}">Register</a></p>
+<p><a href="{{ url_for('scoring.select_game') }}" class="btn btn-outline-primary">Back to game_selection</a></p>
+{% endblock %}

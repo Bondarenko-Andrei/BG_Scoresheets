@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="col mb-3">
+    {% if game.image %}
+    <img src="{{ game.image }}" class="img-fluid rounded" style="max-height: 80px;">
+    {% endif %}
+    {{ game.name }}
+    {% if game.year %}
+    ({{ game.year }})
+    {% endif %}
+</div>
+<div class="table-responsive">
+    <table class="table table-sm table-hover table-bordered align-middle w-auto">
+        <thead class="align-middle">
+            <tr class="table-light">
+                <th>Players</th>
+                {% for res in player_results %}
+                <th style="width: 140px">{{ res.player }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            {% for i in range(fields|count) %}
+            <tr>
+                <td>{{ fields[i] }}</td>
+                {% for res in player_results %}
+                <td>{{ res.field_results[i] }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot class="table-group-divider">
+            <tr>
+                <td>RESULTS</td>
+                {% for res in player_results %}
+                <td>{{ res.result }}</td>
+                {% endfor %}
+            </tr>
+        </tfoot>
+    </table>
+</div>
+<p><a href="{{ url_for('profile.sessions') }}" class="btn btn-outline-primary">Back to my sessions</a></p>
+{% endblock %}

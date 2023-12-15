@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if edit %}
+<form method="post">
+{{ form.hidden_tag() }}
+{% endif %}
+<div class="table-responsive">
+    <table class="table table-hover table-bordered align-middle w-auto">
+        <thead class="align-middle">
+        <tr class="table-light">
+            <th>Date</th>
+            <th>Game</th>
+            <th>Players</th>
+            <th>Winner(s)</th>
+            {% if edit %}
+            <th>Delete session</th>
+            {% endif %}
+        </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            {% for session in sessions %}
+            <tr>
+                <td>{{ session.session_date }}</td>
+                <td>
+                    {% if session.field_names %}
+                    <a href="{{ url_for('profile.session_results', session_id=session.id) }}">
+                        {{ session.game.name }}
+                    </a>
+                    {% else %}
+                    {{ session.game.name }}
+                    {% endif %}
+                </td>
+                <td>
+                    {% for player in session.player_names %}
+                    {{ player }}<br>
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for winner in session.winners %}
+                    {{ winner }}<br>
+                    {% endfor %}
+                </td>
+                {% if edit %}
+                <td>
+                    <input type="checkbox" name="delete_session" value="{{ session.id }}">
+                </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% if edit %}
+<p>{{ form.submit(class_="btn btn-primary") }}</p>
+<p><a href="{{ url_for('profile.sessions') }}" class="btn btn-outline-primary">Back</a></p>
+</form>
+{% else %}
+<p><a href="{{ url_for('profile.edit_sessions') }}" class="btn btn-info">Edit</a></p>
+<p><a href="{{ url_for('profile.profile') }}" class="btn btn-outline-primary">Back</a></p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% from "_formhelpers.html" import render_field %}
+
+{% block content %}
+<form action="" method="post">
+    {{ form.hidden_tag() }}
+    {{ render_field(form.username) }}
+    {{ render_field(form.password) }}
+    <p>{{ form.submit(class_="btn btn-primary") }}</p>
+    <div class="mb-3">
+        <p>Forgot your password? <a href="{{ url_for('auth.change_password_request') }}">Click here!</a></p>
+    </div>
+</form>
+{% endblock %}

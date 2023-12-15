@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% macro render_table(group) %}
+<div class="row">
+    <table class="table table-hover w-auto">
+        <thead class="align-middle">
+        <tr>
+            <th>Image</th>
+            <th>Name</th>
+        </tr>
+        </thead>
+        <tbody class="align-middle">
+        {% for game in group %}
+        <tr>
+            <td class="text-center" width="140">
+                <img src="{{ game.image }}" class="img-fluid rounded" style="max-height: 80px;">
+            </td>
+            <td>
+                <a href="{{ url_for('custom.set_fields', bgg_id=game.id) }}">
+                    {{ game.name }} ({{ game.year }})
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endmacro %}
+
+{% block content %}
+<div class="row gx-5">
+    {% if boardgames %}
+    <div class="col-lg-6">
+        <h2>Boardgames:</h2>
+        {{ render_table(boardgames) }}
+    </div>
+    {% endif %}
+    {% if expansions %}
+    <div class="col-lg-6">
+        <h2>Expansions:</h2>
+        {{ render_table(expansions) }}
+    </div>
+    {% endif %}
+    {% if not boardgames and not expansions %}
+    <p>
+        No results found. <a href="{{ url_for('custom.choose_option') }}">Try searching again!</a>
+    </p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% from "_formhelpers.html" import render_field %}
+
+{% block content %}
+<form action="" method="post">
+    {{ form.hidden_tag() }}
+    {{ render_field(form.game_name) }}
+    {{ form.search(class_="btn btn-primary") }}
+</form>
+{% endblock %}

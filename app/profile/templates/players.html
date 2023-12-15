@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="table-responsive">
+    {% if edit %}
+    <form action="" method="post">
+    {{ form.hidden_tag() }}
+    {% endif %}
+    <table class="table table-hover table-bordered align-middle w-auto">
+        <thead class="align-middle">
+            <tr class="table-light">
+                <th>Name</th>
+                <th>Sessions played</th>
+                <th>First played</th>
+                <th>Last played</th>
+                {% if edit %}
+                <th>Delete player</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            {% for player in players %}
+            <tr>
+                {% if edit %}
+                <td>{{ player.edit_name(class_="form-control w-auto") }}</td>
+                {% else %}
+                <td>{{ player.name }}</td>
+                {% endif %}
+                <td>{{ player.sessions|count }}</td>
+                <td>{{ player.first_played }}</td>
+                <td>{{ player.last_played }}</td>
+                {% if edit %}
+                <td>
+                    <input type="checkbox" name="delete_player" value="{{ player.id }}"
+                    {% if player.sessions %} disabled {% endif %}>
+                </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+            {% if edit %}
+            {% for player in form.new_players %}
+            <tr>
+                <td>{{ player(class_="form-control w-auto", placeholder="Enter player's name", required=False) }}</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
+        {% if edit %}
+        <p>
+        <button type="submit" name="add_new_player" value="1" class="btn btn-info">+ Add Player</button>
+        {% if form.new_players.data %}
+        <button type="submit" name="delete_new_player" value="1" class="btn btn-info">- Delete Player</button>
+        {% endif %}
+        </p>
+        <p>{{ form.submit(class_="btn btn-primary") }}</p>
+        <p><a href="{{ url_for('profile.players') }}" class="btn btn-outline-primary">Back</a></p>
+        <p><b>Note:</b> Players with registered sessions cannot be deleted until corresponding sessions are deleted</p>
+    </form>
+    {% else %}
+    <p><a href="{{ url_for('profile.edit_players') }}" class="btn btn-info">Edit players</a></p>
+    <p><a href="{{ url_for('profile.profile') }}" class="btn btn-outline-primary">Back</a></p>
+    {% endif %}
+</div>
+{% endblock %}

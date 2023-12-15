@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% from "_formhelpers.html" import render_field %}
+
+{% block content %}
+<form action="" method="post">
+    <div class="row">
+    {{ form.hidden_tag() }}
+    {% if not game.bgg_id %}
+    <div class="col-md-6">
+    {{ render_field(form.name) }}
+    {{ render_field(form.min_players) }}
+    {{ render_field(form.max_players) }}
+    {{ render_field(form.year) }}
+    </div>
+    <div class="col-md-6">
+    <h4>Fields:</h4>
+    {% else %}
+    <div class="col">
+    {% endif %}
+<div class="table-responsive">
+    <table class="table table-hover table-bordered align-middle w-auto">
+        <thead class="align-middle">
+            <tr class="table-light">
+                <th>Name</th>
+                <th>Delete field</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            {% for field in fields %}
+            <tr>
+                <td>{{ field.edit_name(class_="form-control w-auto") }}</td>
+                <td>
+                    <input type="checkbox" name="delete_field" value="{{ field.id }}">
+                </td>
+            </tr>
+            {% endfor %}
+            {% for field in form.new_fields %}
+            <tr>
+                <td>{{ field(class_="form-control w-auto", placeholder="Enter field's name", required=False) }}</td>
+                <td>-</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+        <p>
+            <button type="submit" name="add_new_field" value="1" class="btn btn-info">+ Add Field</button>
+            {% if form.new_fields.data %}
+            <button type="submit" name="delete_new_field" value="1" class="btn btn-info">- Delete Field</button>
+            {% endif %}
+        </p>
+        <p>{{ form.submit(class_="btn btn-primary") }}
+        <p><a href="{{ url_for('profile.delete_scoresheet', game_id=game.id) }}" class="btn btn-danger">Delete scoresheet</a>
+        <p><a href="{{ url_for('profile.custom_scoresheets') }}" class="btn btn-outline-primary">Back</a>
+    </div>
+    </div>
+    </div>
+</div>
+</form>
+{% endblock %}
