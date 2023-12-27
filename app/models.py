@@ -32,6 +32,7 @@ class User(db.Model, UserMixin):
     id: Mapped[int] = mapped_column(primary_key=True)
     username: Mapped[str] = mapped_column(unique=True)
     email: Mapped[str] = mapped_column(unique=True)
+    admin: Mapped[Optional[bool]]
     bgg_username: Mapped[Optional[str]]
     password_hash: Mapped[Optional[str]]
     players: Mapped[list["Player"]] = relationship(back_populates="user", cascade="all, delete-orphan")

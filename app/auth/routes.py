@@ -51,16 +51,9 @@ def logout():
 def change_password_request():
     form = ChangePasswordRequestForm()
     if form.validate_on_submit():
-        user = None
-        if not form.email.data and not form.username.data:
-            flash("You have to enter your username and/or your email", "warning")
-            return redirect(url_for("auth.change_password_request"))
-        if form.email.data:
-            user = db.session.scalar(db.select(User).filter_by(email=form.email.data))
-        elif form.username.data:
-            user = db.session.scalar(db.select(User).filter_by(username=form.username.data))
+        user = db.session.scalar(db.select(User).filter_by(email=form.email.data))
         if user is None:
-            flash("User with indicated username/email not found. Please check input data and try again!", "warning")
+            flash("User with indicated email not found. Please check input data and try again!", "warning")
             return redirect(url_for("auth.change_password_request"))
         session["user_id"] = user.id
         return redirect(url_for("auth.change_password"))

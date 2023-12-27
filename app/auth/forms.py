@@ -55,8 +55,7 @@ class EditUserForm(FlaskForm):
 
 
 class ChangePasswordRequestForm(FlaskForm):
-    username = StringField("Username")
-    email = StringField("Email")
+    email = StringField("Email", [DataRequired()])
     submit = SubmitField("Submit")
 
 

@@ -53,6 +53,7 @@ def set_fields(bgg_id):
                         min_players=game["min_players"],
                         max_players=game["max_players"],
                         image=game["image"],
+                        year=game["year"],
                         fields=fields,
                         user_id=current_user.id)
         db.session.add(new_game)
