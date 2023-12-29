@@ -1,20 +1,20 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, EmailField, PasswordField
-from wtforms.validators import DataRequired, ValidationError, EqualTo
+from wtforms.validators import DataRequired, ValidationError, EqualTo, Length
 from app.models import User
 from app import db
 
 
 class LoginForm(FlaskForm):
-    username = StringField("Username", [DataRequired()])
+    username = StringField("Username", [DataRequired(), Length(max=64)])
     password = PasswordField("Password", [DataRequired()])
     submit = SubmitField("Submit")
 
 
 class RegisterForm(FlaskForm):
-    username = StringField("Username", [DataRequired()])
-    email = EmailField("Email", [DataRequired()])
-    bgg_username = StringField("BoardGameGeek username (optional)")
+    username = StringField("Username", [DataRequired(), Length(max=64)])
+    email = EmailField("Email", [DataRequired(), Length(max=150)])
+    bgg_username = StringField("BoardGameGeek username (optional)", [Length(max=120)])
     password = PasswordField("Password", [DataRequired()])
     password2 = PasswordField("Repeat password", [DataRequired(), EqualTo("password")])
     submit = SubmitField("Submit")
@@ -31,8 +31,8 @@ class RegisterForm(FlaskForm):
 
 
 class EditUserForm(FlaskForm):
-    username = StringField("Username", [DataRequired()])
-    email = EmailField("Email", [DataRequired()])
+    username = StringField("Username", [DataRequired(), Length(max=64)])
+    email = EmailField("Email", [DataRequired(), Length(max=150)])
     bgg_username = StringField("BoardGameGeek username (optional)")
     submit = SubmitField("Submit")
 
@@ -55,7 +55,7 @@ class EditUserForm(FlaskForm):
 
 
 class ChangePasswordRequestForm(FlaskForm):
-    email = StringField("Email", [DataRequired()])
+    email = StringField("Email", [DataRequired(), Length(max=150)])
     submit = SubmitField("Submit")
 
 

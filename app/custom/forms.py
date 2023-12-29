@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, SubmitField, FieldList
-from wtforms.validators import DataRequired, Optional
+from wtforms.validators import DataRequired, Optional, Length
 
 
 class SearchGameForm(FlaskForm):
@@ -14,14 +14,14 @@ class BggIdForm(FlaskForm):
 
 
 class CustomSetFieldsForm(FlaskForm):
-    fields = FieldList(StringField("Field name", [DataRequired()]), min_entries=1)
+    fields = FieldList(StringField("Field name", [DataRequired(), Length(max=250)]), min_entries=1)
     submit = SubmitField("Submit")
 
 
 class CustomCreate(FlaskForm):
-    name = StringField("Game name (required)", [DataRequired()])
+    name = StringField("Game name (required)", [DataRequired(), Length(max=250)])
     min_players = IntegerField("Min # of players", [Optional()])
     max_players = IntegerField("Max # of players", [Optional()])
     year = IntegerField("Year published", [Optional()])
-    fields = FieldList(StringField("Field name", [DataRequired()]), min_entries=1)
+    fields = FieldList(StringField("Field name", [DataRequired(), Length(max=250)]), min_entries=1)
     submit = SubmitField("Submit")

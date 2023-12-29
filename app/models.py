@@ -1,7 +1,7 @@
 from app import db, login_manager
 from flask_login import UserMixin
 from typing import Optional
-from sqlalchemy import ForeignKey
+from sqlalchemy import ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import date
@@ -9,11 +9,11 @@ from datetime import date
 
 class Game(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str]
+    name: Mapped[str] = mapped_column(String(250))
     bgg_id: Mapped[Optional[int]]
     min_players: Mapped[Optional[int]]
     max_players: Mapped[Optional[int]]
-    image: Mapped[Optional[str]]
+    image: Mapped[Optional[str]] = mapped_column(String(400))
     year: Mapped[Optional[int]]
     user_id = mapped_column(ForeignKey("user.id"), nullable=True)
     fields: Mapped[list["Field"]] = relationship(back_populates="game", cascade="all, delete-orphan")
@@ -24,17 +24,17 @@ class Game(db.Model):
 class Field(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     game_id = mapped_column(ForeignKey("game.id"))
-    name: Mapped[str]
+    name: Mapped[str] = mapped_column(String(250))
     game: Mapped["Game"] = relationship(back_populates="fields")
 
 
 class User(db.Model, UserMixin):
     id: Mapped[int] = mapped_column(primary_key=True)
-    username: Mapped[str] = mapped_column(unique=True)
-    email: Mapped[str] = mapped_column(unique=True)
+    username: Mapped[str] = mapped_column(String(64), unique=True)
+    email: Mapped[str] = mapped_column(String(150), unique=True)
     admin: Mapped[Optional[bool]]
-    bgg_username: Mapped[Optional[str]]
-    password_hash: Mapped[Optional[str]]
+    bgg_username: Mapped[Optional[str]] = mapped_column(String(120))
+    password_hash: Mapped[Optional[str]] = mapped_column(String(250))
     players: Mapped[list["Player"]] = relationship(back_populates="user", cascade="all, delete-orphan")
     sessions: Mapped[list["Session"]] = relationship(back_populates="user", cascade="all, delete-orphan")
     custom_games: Mapped[list["Game"]] = relationship(back_populates="author")
@@ -48,7 +48,7 @@ class User(db.Model, UserMixin):
 
 class Player(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str]
+    name: Mapped[str] = mapped_column(String(64))
     user_id = mapped_column(ForeignKey("user.id"))
     user: Mapped["User"] = relationship(back_populates="players")
     sessions: Mapped[list["Session"]] = relationship(secondary="player_result", viewonly=True)
@@ -60,7 +60,7 @@ class Session(db.Model):
     game_id = mapped_column(ForeignKey("game.id"))
     user_id = mapped_column(ForeignKey("user.id"))
     session_date: Mapped[Optional[date]]
-    field_names: Mapped[Optional[str]]
+    field_names: Mapped[Optional[str]] = mapped_column(String(3200))
     results: Mapped[list["PlayerResult"]] = relationship(back_populates="session", cascade="all, delete-orphan")
     players: Mapped[list["Player"]] = relationship(secondary="player_result", viewonly=True)
     user: Mapped["User"] = relationship()
@@ -71,7 +71,7 @@ class PlayerResult(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     player_id = mapped_column(ForeignKey("player.id"))
     session_id = mapped_column(ForeignKey("session.id"))
-    field_results: Mapped[Optional[str]]
+    field_results: Mapped[Optional[str]] = mapped_column(String(500))
     result: Mapped[int]
     session: Mapped["Session"] = relationship(back_populates="results")
     player: Mapped["Player"] = relationship(back_populates="results")

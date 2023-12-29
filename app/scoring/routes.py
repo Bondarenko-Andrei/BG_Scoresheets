@@ -3,6 +3,7 @@ from datetime import date
 from flask import render_template, url_for, redirect, flash, request
 from flask_login import current_user
 from wtforms import Form, FieldList, StringField, IntegerField, FormField
+from wtforms.validators import DataRequired, Length
 from app import db
 from app.scoring import bp_game_scoring
 from app.models import Game, Player, Session, PlayerResult
@@ -47,7 +48,8 @@ def scoring(game_id):
                 FieldList(IntegerField(), label=field, min_entries=number_of_players))
 
     class ScoreForm(BaseSubmitForm):
-        players = FieldList(StringField("Player"), "Players", min_entries=number_of_players)
+        players = FieldList(StringField("Player", [DataRequired(), Length(64)]),
+                            "Players", min_entries=number_of_players)
         scores = FormField(ScoreFieldsForm)
 
     form = ScoreForm()
