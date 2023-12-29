@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-100">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,7 +12,8 @@
                 crossorigin="anonymous"
         >
     </head>
-    <body>
+    <body class="d-flex flex-column h-100">
+    <header>
     <nav class="navbar navbar-expand-md bg-primary bg-gradient mb-3" data-bs-theme="dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="{{ url_for('index') }}">BG-Scoresheets</a>
@@ -49,6 +50,8 @@
             </div>
         </div>
     </nav>
+    </header>
+    <main class="flex-shrink-0">
     <div class="container">
     {% with messages = get_flashed_messages(with_categories=True) %}
         {% if messages %}
@@ -73,6 +76,14 @@
     {% endwith %}
     {% block content %}{% endblock %}
     </div>
+    </main>
+    <footer class="footer mt-auto py-3 bg-body-tertiary">
+        <div class="container text-center">
+            <span class="text-body-secondary">
+                Created by Andrei Bondarenko
+            </span>
+        </div>
+    </footer>
     <script
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"

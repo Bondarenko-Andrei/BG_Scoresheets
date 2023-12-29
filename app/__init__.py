@@ -18,16 +18,16 @@ class Base(DeclarativeBase):
       "pk": "pk_%(table_name)s"
     })
 
-
 sentry_sdk.init(dsn="https://eeb52daec704814c1f45735df76cf773@o4506381594525696.ingest.sentry.io/4506381604093952",
-                traces_sample_rate=1.0,
-                profiles_sample_rate=1.0,
-                )
+                enable_tracing=True)
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "1234"
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///games.db"
 app.config["FLASK_ADMIN_SWATCH"] = "cerulean"
+
+if app.debug:
+    sentry_sdk.init()
 
 
 class MyAdminView(AdminIndexView):

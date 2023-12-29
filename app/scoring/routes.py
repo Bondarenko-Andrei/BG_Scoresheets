@@ -48,7 +48,7 @@ def scoring(game_id):
                 FieldList(IntegerField(), label=field, min_entries=number_of_players))
 
     class ScoreForm(BaseSubmitForm):
-        players = FieldList(StringField("Player", [DataRequired(), Length(64)]),
+        players = FieldList(StringField("Player", [DataRequired(), Length(max=64)]),
                             "Players", min_entries=number_of_players)
         scores = FormField(ScoreFieldsForm)
 
@@ -96,6 +96,7 @@ def scoring(game_id):
         else:
             return render_template("results.html",
                                    form=form,
+                                   game=game,
                                    results=results,
                                    fields=fields,
                                    number_of_fields=number_of_fields,
