@@ -7,6 +7,7 @@ from flask_admin import Admin, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
 from sqlalchemy import MetaData
 from sqlalchemy.orm import DeclarativeBase
+from app.config import Config
 
 
 class Base(DeclarativeBase):
@@ -22,9 +23,7 @@ sentry_sdk.init(dsn="https://eeb52daec704814c1f45735df76cf773@o4506381594525696.
                 enable_tracing=True)
 
 app = Flask(__name__)
-app.config["SECRET_KEY"] = "1234"
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///games.db"
-app.config["FLASK_ADMIN_SWATCH"] = "cerulean"
+app.config.from_object(Config)
 
 if app.debug:
     sentry_sdk.init()

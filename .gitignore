@@ -10,3 +10,5 @@
 /migrations/env.py
 /migrations/README
 /migrations/script.py.mako
+/app/config.py
+/migrations/versions/c7af529865c1_.py
