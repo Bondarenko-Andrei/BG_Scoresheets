@@ -1,4 +1,7 @@
+'''This is an example config for deployment on local machine. 
+In production relevant values for SECRET_KEY and SQLALCHEMY_DATABASE_URI are (and should be) used'''
+
 class Config:
-    SECRET_KEY = "475a505c450001887c4edbabc33662799231a11b90fc6392c0574e86af2f7cfa"
+    SECRET_KEY = "super-secret-key"
     SQLALCHEMY_DATABASE_URI = "sqlite:///games.db"
     FLASK_ADMIN_SWATCH = "cerulean"
