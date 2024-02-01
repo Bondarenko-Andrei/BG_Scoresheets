@@ -22,7 +22,7 @@ This app currently has following features:
 - Custom scoresheet creating interface
 - Saving game session results
 - Saving player data and player data autocomplete on scoring
-- Integration with [BoardGameGeek](https://boardgamegeek.com/):
+- Integration with [BoardGameGeek](https://boardgamegeek.com/) (BGG):
     * Game image uploading
     * Finding boardgames via BGG search engine
     * Choosing games from user's collection on BGG
