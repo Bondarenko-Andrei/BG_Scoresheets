@@ -41,6 +41,7 @@ The app is currently deployed at [PythonAnywhere.com](https://bgscoresheets.pyth
 
 - Python 3.12
 - Flask
+- Jinja2
 - WTForms
 - SQLAlchemy
 - Bootstrap
